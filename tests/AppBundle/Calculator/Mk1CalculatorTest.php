@@ -28,6 +28,7 @@ class Mk1CalculatorTest extends TestCase
     {
         $change = $this->calculator->getChange(2);
         $this->assertInstanceOf(Change::class, $change);
-        $this->assertEquals(2, $change->coin1);
+        $objChange = new Change(2,0,0,0);
+        $this->assertTrue($objChange == $change);
     }
 }
