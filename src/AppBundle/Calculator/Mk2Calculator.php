@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Calculator;
 
 class Mk2Calculator implements CalculatorInterface
 {
-
     /**
      * @return string Indicates the model of automaton
      */
@@ -30,9 +31,10 @@ class Mk2Calculator implements CalculatorInterface
         $intCoin2 = floor($floatResteBill5 / 2);
 
         $objChange = null;
-        if($intResteCoin2 === 0) {
+        if (0 === $intResteCoin2) {
             $objChange = new \AppBundle\Model\Change(0, $intCoin2, $intBill5, $intBill10);
         }
+
         return $objChange;
     }
 }

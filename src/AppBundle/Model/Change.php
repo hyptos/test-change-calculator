@@ -8,24 +8,28 @@ final class Change
 {
     /**
      * Should be private but required in unit test
+     *
      * @var int
      */
     public $bill10 = 0;
 
     /**
      * Should be private but required in unit test
+     *
      * @var int
      */
     public $bill5 = 0;
 
     /**
      * Should be private but required in unit test
+     *
      * @var int
      */
     public $coin2 = 0;
 
     /**
      * Should be private but required in unit test
+     *
      * @var int
      */
     public $coin1 = 0;
@@ -42,6 +46,4 @@ final class Change
     {
         return $this == $obj;
     }
-
-
 }

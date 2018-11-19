@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Calculator;
 
 class Mk1Calculator implements CalculatorInterface
 {
-
     /**
      * @return string Indicates the model of automaton
      */
@@ -22,6 +23,7 @@ class Mk1Calculator implements CalculatorInterface
     {
         $intResult = floor($amount / 1);
         $objChange = new \AppBundle\Model\Change($intResult, 0, 0, 0);
+
         return $objChange;
     }
 }

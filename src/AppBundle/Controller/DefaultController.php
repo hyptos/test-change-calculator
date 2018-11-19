@@ -7,24 +7,36 @@ namespace AppBundle\Controller;
 use AppBundle\Model\Change;
 use AppBundle\Registry\CalculatorRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
     /**
      * Matches /automaton/
      *
-     * @Route("/automaton/{calculator}/change{amount}", name="automaton")
+     * @Route("/automaton/{calculator}/change/{amount}", name="automaton")
+     *
      * @param mixed $calculator
      * @param mixed $amount
-     * @return false|string
+     *
+     * @return false|string|Response
+     * @throws \ReflectionException
      */
-    public function automaton($calculator, $amount){
+    public function automaton($calculator, $amount)
+    {
         $CalculatorRegistry = new CalculatorRegistry();
         $objCalculator = $CalculatorRegistry->getCalculatorFor($calculator);
-        $objChange = new Change(0,0,0,0);
-        if ($objCalculator !== null) {
-            $objChange = $objCalculator->getChange($amount);
+        if (null === $objCalculator) {
+            return new Response('', Response::HTTP_NOT_FOUND);
         }
-        return json_encode($objChange);
+
+        $objChange = $objCalculator->getChange((int) $amount);
+        if (null == $objChange) {
+            return new Response('', Response::HTTP_NO_CONTENT);
+        }
+
+        return new JsonResponse($objChange);
     }
 }
