@@ -4,8 +4,19 @@ declare(strict_types=1);
 
 namespace AppBundle\Calculator;
 
+use AppBundle\Model\Change;
+use AppBundle\Model\Money;
+
 class Mk2Calculator implements CalculatorInterface
 {
+
+    private $objChange;
+
+    public function __construct($objChange)
+    {
+        $this->objChange = $objChange;
+    }
+    
     /**
      * @return string Indicates the model of automaton
      */
@@ -17,24 +28,24 @@ class Mk2Calculator implements CalculatorInterface
     /**
      * @param int $amount The amount of money to turn into change
      *
-     * @return \AppBundle\Model\Change|null The change, or null if the operation is impossible
+     * @return Change|null The change, or null if the operation is impossible
      */
-    public function getChange(int $amount): ?\AppBundle\Model\Change
+    public function getChange(int $amount): ?Change
     {
-        $floatResteBill10 = $amount % 10;
-        $intBill10 = floor($amount / 10);
+        $startAmount = $amount;
+        $arrAttributes = get_object_vars($this->objChange);
 
-        $floatResteBill5 = $floatResteBill10 % 5;
-        $intBill5 = floor($floatResteBill10 / 5);
-
-        $intResteCoin2 = $floatResteBill5 % 2;
-        $intCoin2 = floor($floatResteBill5 / 2);
-
-        $objChange = null;
-        if (0 === $intResteCoin2) {
-            $objChange = new \AppBundle\Model\Change(0, $intCoin2, $intBill5, $intBill10);
+        foreach($arrAttributes as $strAttribute => $objMoney) {
+            /** @var Money $objMoney */
+            if($objMoney !== null && $objMoney instanceof Money) {
+                if($objMoney->getNom() == $strAttribute) {
+                    $startAmount = $objMoney->setChange($startAmount);
+                }
+            }
         }
 
-        return $objChange;
+        if ($startAmount !== 0) return null;
+
+        return $this->objChange;
     }
 }

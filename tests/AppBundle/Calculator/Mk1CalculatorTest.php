@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Calculator;
 use AppBundle\Calculator\CalculatorInterface;
 use AppBundle\Model\Change;
 use AppBundle\Calculator\Mk1Calculator;
+use AppBundle\Model\Money;
 use PHPUnit\Framework\TestCase;
 
 class Mk1CalculatorTest extends TestCase
@@ -16,7 +17,8 @@ class Mk1CalculatorTest extends TestCase
 
     protected function setUp()
     {
-        $this->calculator = new Mk1Calculator();
+        $objChange = new Change([new Money('coin1', 1, 0)]);
+        $this->calculator = new Mk1Calculator($objChange);
     }
 
     public function testGetSupportedModel()
@@ -28,7 +30,8 @@ class Mk1CalculatorTest extends TestCase
     {
         $change = $this->calculator->getChange(2);
         $this->assertInstanceOf(Change::class, $change);
-        $objChange = new Change(2,0,0,0);
+        $objChange = new Change([new Money('coin1', 1, 0)]);
+        $objChange->coin1 = new Money('coin1', 1, 2);
         $this->assertTrue($objChange == $change);
     }
 }

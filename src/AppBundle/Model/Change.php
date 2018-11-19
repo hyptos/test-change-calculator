@@ -11,35 +11,37 @@ final class Change
      *
      * @var int
      */
-    public $bill10 = 0;
+    public $bill10 = null;
 
     /**
      * Should be private but required in unit test
      *
      * @var int
      */
-    public $bill5 = 0;
+    public $bill5 = null;
 
     /**
      * Should be private but required in unit test
      *
      * @var int
      */
-    public $coin2 = 0;
+    public $coin2 = null;
 
     /**
      * Should be private but required in unit test
      *
      * @var int
      */
-    public $coin1 = 0;
+    public $coin1 = null;
 
-    public function __construct($coin1, $coin2, $bill5, $bill10)
+    public function __construct($arrDistribution)
     {
-        $this->coin1 = $coin1;
-        $this->coin2 = $coin2;
-        $this->bill5 = $bill5;
-        $this->bill10 = $bill10;
+        foreach($arrDistribution as $key => $value) {
+            if ($value instanceof Money && property_exists($this, $value->getNom())) {
+                $strProperty = $value->getNom();
+                $this->$strProperty = $value;
+            }
+        }
     }
 
     public function isEqual(Change $obj)
