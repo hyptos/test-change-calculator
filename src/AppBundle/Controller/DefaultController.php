@@ -21,7 +21,7 @@ class DefaultController extends Controller
      * @param mixed $calculator
      * @param mixed $amount
      *
-     * @return false|string|Response
+     * @return Response|JsonResponse
      * @throws \ReflectionException
      */
     public function automaton($calculator, $amount)
